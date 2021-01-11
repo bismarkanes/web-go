@@ -14,7 +14,7 @@ type ping struct {
 }
 
 func (p *ping) GetPing(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(p.ping.GetValue()))
+	w.Write([]byte("PONG"))
 }
 
 func NewPing(p application.Ping) Ping {

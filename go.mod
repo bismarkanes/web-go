@@ -1,4 +1,4 @@
-module github.com/test
+module github.com/bismarkanes/web-go
 
 go 1.15
 

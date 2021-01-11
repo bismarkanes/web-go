@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/asaskevich/govalidator"
+	"github.com/bismarkanes/web-go/application"
+	"github.com/bismarkanes/web-go/interfaces/routes"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/joho/godotenv/autoload"
@@ -23,9 +25,9 @@ func setupRouter() {
 
 	r.Use(middleware.Logger)
 
-	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("PONG"))
-	})
+	ping := application.NewPing()
+	routePing := routes.NewPing(ping)
+	r.Get("/ping", routePing.GetPing)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
