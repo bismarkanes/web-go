@@ -14,16 +14,8 @@ type ping struct {
 	ping application.Ping
 }
 
-type data struct {
-  Contents string `json:"contents"`
-}
-
 func (p *ping) GetPing(w http.ResponseWriter, r *http.Request) {
-  d := data{
-    Contents: "PONG",
-  }
-
-  utils.JSON(w, r, true, "", d)
+  utils.JSON(w, r, true, "", p.ping.GetValue())
 }
 
 func NewPing(p application.Ping) Ping {
