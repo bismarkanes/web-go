@@ -3,6 +3,9 @@ package main
 import (
 	"net/http"
 
+	"log"
+	"os"
+
 	"github.com/asaskevich/govalidator"
 	"github.com/bismarkanes/web-go/application"
 	"github.com/bismarkanes/web-go/infrastructure/database"
@@ -10,8 +13,6 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	_ "github.com/joho/godotenv/autoload"
-	"log"
-	"os"
 )
 
 func init() {
@@ -21,6 +22,7 @@ func init() {
 func main() {
 	// initial database
 	db := database.NewDBConnection()
+
 	log.Printf("Db connection %s SUCCESS", db.Name())
 
 	// initial HTTP router handler
@@ -34,6 +36,7 @@ func initRouter() {
 
 	ping := application.NewPing()
 	routePing := routes.NewPing(ping)
+
 	r.Get("/ping", routePing.GetPing)
 
 	http.ListenAndServe(":"+os.Getenv("PORT"), r)
