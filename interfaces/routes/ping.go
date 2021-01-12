@@ -2,7 +2,8 @@ package routes
 
 import (
 	"github.com/bismarkanes/web-go/application"
-	"net/http"
+  "github.com/bismarkanes/web-go/infrastructure/utils"
+  "net/http"
 )
 
 type Ping interface {
@@ -13,8 +14,16 @@ type ping struct {
 	ping application.Ping
 }
 
+type data struct {
+  Contents string `json:"contents"`
+}
+
 func (p *ping) GetPing(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte(p.ping.GetValue()))
+  d := data{
+    Contents: "PONG",
+  }
+
+  utils.JSON(w, r, true, "", d)
 }
 
 func NewPing(p application.Ping) Ping {
