@@ -12,7 +12,7 @@ import (
     "github.com/go-chi/chi"
 )
 
-type Users interface {
+type User interface {
     GetUser(w http.ResponseWriter, r *http.Request)
     GetAllUser(w http.ResponseWriter, r *http.Request)
     CreateUser(w http.ResponseWriter, r *http.Request)
@@ -21,10 +21,10 @@ type Users interface {
 }
 
 type users struct {
-    userApp application.Users
+    userApp application.User
 }
 
-func NewUsersHandler(up application.Users) Users {
+func NewUserHandler(up application.User) User {
     us := users{userApp: up}
     return &us
 }
@@ -50,7 +50,7 @@ func (us *users) GetAllUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (us *users) CreateUser(w http.ResponseWriter, r *http.Request) {
-    b := domain.Users{}
+    b := domain.User{}
 
     err := json.NewDecoder(r.Body).Decode(&b)
     if err != nil {
@@ -72,7 +72,7 @@ func (us *users) UpdateUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    u := domain.Users{}
+    u := domain.User{}
 
     err = json.NewDecoder(r.Body).Decode(&u)
     if err != nil {

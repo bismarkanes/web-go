@@ -6,45 +6,45 @@ import (
     "gorm.io/gorm"
 )
 
-// Users .
-type users struct {
+// User .
+type user struct {
     dbConn *gorm.DB
 }
 
-// NewUsersRepo ...
-func NewUsersRepo(dbConn *gorm.DB) repository.Users {
-    return &users{
+// NewUserRepo ...
+func NewUserRepo(dbConn *gorm.DB) repository.User {
+    return &user{
         dbConn: dbConn,
     }
 }
 
-func (us *users) Get(id int) (domain.Users, error) {
-    user := domain.Users{}
+func (us *user) Get(id int) (domain.User, error) {
+    user := domain.User{}
 
     err := us.dbConn.First(&user, id).Error
 
     return user, err
 }
 
-func (us *users) GetAll() ([]domain.Users, error) {
-    users := []domain.Users{}
+func (us *user) GetAll() ([]domain.User, error) {
+    user := []domain.User{}
 
-    err := us.dbConn.Find(&users).Error
+    err := us.dbConn.Find(&user).Error
 
-    return users, err
+    return user, err
 }
 
-func (us *users) Update(id int, name, email string) (int64, error) {
+func (us *user) Update(id int, name, email string) (int64, error) {
     // var val int
-    user := domain.Users{}
+    user := domain.User{}
 
     result := us.dbConn.Model(&user).Where("id = ?", id).Updates(map[string]interface{}{"name": name, "email": email})
 
     return result.RowsAffected, result.Error
 }
 
-func (us *users) Create(name, email string) (domain.Users, error) {
-    user := domain.Users{
+func (us *user) Create(name, email string) (domain.User, error) {
+    user := domain.User{
         Name:  name,
         Email: email,
     }

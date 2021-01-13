@@ -2,10 +2,10 @@ package repository
 
 import "github.com/bismarkanes/web-go/domain"
 
-// Users .
-type Users interface {
-    Get(id int) (domain.Users, error)
-    GetAll() ([]domain.Users, error)
-    Create(name, email string) (domain.Users, error)
+// User .
+type User interface {
+    Get(id int) (domain.User, error)
+    GetAll() ([]domain.User, error)
+    Create(name, email string) (domain.User, error)
     Update(id int, name, email string) (int64, error)
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func Migrate(db *gorm.DB) error {
-    Users := domain.Users{}
+    Users := domain.User{}
 
     return db.AutoMigrate(&Users)
 }
