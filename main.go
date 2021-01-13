@@ -57,7 +57,3 @@ func main() {
 
   http.ListenAndServe(":"+os.Getenv("PORT"), r)
 }
-
-func initRouter() {
-
-}
