@@ -21,7 +21,15 @@ func NewUsersRepo(dbConn *gorm.DB) repository.Users {
 func (us *users) Get(id int) (model.Users, error) {
   user := model.Users{}
 
-  err := us.dbConn.First(&user).Error
+  err := us.dbConn.First(&user, id).Error
 
   return user, err
+}
+
+func (us *users) GetAll() ([]model.Users, error) {
+  users := []model.Users{}
+
+  err := us.dbConn.Find(&users).Error
+
+  return users, err
 }

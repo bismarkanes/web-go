@@ -46,12 +46,12 @@ func main() {
   userHandler := handlers.NewUsersHandler(userApp)
 
   r.Route("/users", func(r chi.Router) {
-    r.Get("/", userHandler.GetUser)
+    r.Get("/", userHandler.GetAllUser)
+    r.Post("/", userHandler.CreateUser)
     r.Route("/{userID}", func(r chi.Router) {
-      r.Get("/", nil)
-      r.Post("/", nil)
-      r.Patch("/", nil)
-      r.Delete("/", nil)
+      r.Get("/", userHandler.GetUser)
+      r.Patch("/", userHandler.UpdateUser)
+      r.Delete("/", userHandler.DeleteUser)
     })
   })
 

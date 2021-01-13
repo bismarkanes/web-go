@@ -7,6 +7,7 @@ import (
 
 type Users interface {
   GetUser(ID int) *model.Users
+  GetAllUser() []model.Users
 }
 
 type users struct {
@@ -20,6 +21,15 @@ func (us *users) GetUser(ID int) *model.Users {
   }
 
   return &users
+}
+
+func (us *users) GetAllUser() []model.Users {
+  users, err := us.usersRepo.GetAll()
+  if err != nil {
+    return nil
+  }
+
+  return users
 }
 
 func NewUsers(ur repository.Users) Users {
