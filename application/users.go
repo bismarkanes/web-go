@@ -8,6 +8,8 @@ import (
 type Users interface {
     GetUser(ID int) *domain.Users
     GetAllUser() []domain.Users
+    UpdateUser(id int, name, email string) int64
+    CreateUser(name, email string) *domain.Users
 }
 
 type users struct {
@@ -30,6 +32,23 @@ func (us *users) GetAllUser() []domain.Users {
     }
 
     return users
+}
+
+func (us *users) UpdateUser(id int, name, email string) int64 {
+    val, err := us.usersRepo.Update(id, name, email)
+    if err != nil {
+        return 0
+    }
+    return val
+}
+
+func (us *users) CreateUser(name, email string) *domain.Users {
+    user, err := us.usersRepo.Create(name, email)
+    if err != nil {
+        return nil
+    }
+
+    return &user
 }
 
 func NewUsers(ur repository.Users) Users {

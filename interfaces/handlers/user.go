@@ -4,10 +4,12 @@ import (
     "net/http"
 
     "encoding/json"
+    "strconv"
+
     "github.com/bismarkanes/web-go/application"
+    "github.com/bismarkanes/web-go/domain"
     "github.com/bismarkanes/web-go/infrastructure/utils"
     "github.com/go-chi/chi"
-    "strconv"
 )
 
 type Users interface {
@@ -47,12 +49,8 @@ func (us *users) GetAllUser(w http.ResponseWriter, r *http.Request) {
     utils.JSON(w, r, true, nil, resp)
 }
 
-type createBody struct {
-    Name string `json:"name"`
-}
-
 func (us *users) CreateUser(w http.ResponseWriter, r *http.Request) {
-    b := createBody{}
+    b := domain.Users{}
 
     err := json.NewDecoder(r.Body).Decode(&b)
     if err != nil {
@@ -60,12 +58,9 @@ func (us *users) CreateUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    utils.JSON(w, r, true, nil, "CREATE")
-}
+    resp := us.userApp.CreateUser(b.Name, b.Email)
 
-type updateBody struct {
-    ID int `json:"id"`
-    createBody
+    utils.JSON(w, r, true, nil, resp)
 }
 
 func (us *users) UpdateUser(w http.ResponseWriter, r *http.Request) {
@@ -77,7 +72,7 @@ func (us *users) UpdateUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    u := updateBody{}
+    u := domain.Users{}
 
     err = json.NewDecoder(r.Body).Decode(&u)
     if err != nil {
@@ -85,7 +80,7 @@ func (us *users) UpdateUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    resp := us.userApp.GetUser(userID)
+    resp := us.userApp.UpdateUser(userID, u.Name, u.Email)
 
     utils.JSON(w, r, true, nil, resp)
 }

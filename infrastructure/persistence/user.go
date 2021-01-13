@@ -33,3 +33,24 @@ func (us *users) GetAll() ([]domain.Users, error) {
 
     return users, err
 }
+
+func (us *users) Update(id int, name, email string) (int64, error) {
+    // var val int
+    user := domain.Users{}
+
+    result := us.dbConn.Model(&user).Where("id = ?", id).Updates(map[string]interface{}{"name": name, "email": email})
+
+    return result.RowsAffected, result.Error
+}
+
+func (us *users) Create(name, email string) (domain.Users, error) {
+    user := domain.Users{
+        Name:  name,
+        Email: email,
+    }
+
+    result := us.dbConn.Create(&user)
+
+    err := result.Scan(&user).Error
+    return user, err
+}
