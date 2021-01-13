@@ -3,16 +3,16 @@ package main
 import (
 	"net/http"
 
-	"log"
-	"os"
+  "os"
 
 	"github.com/asaskevich/govalidator"
 	"github.com/bismarkanes/web-go/application"
 	"github.com/bismarkanes/web-go/infrastructure/database"
-	"github.com/bismarkanes/web-go/interfaces/routes"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	_ "github.com/joho/godotenv/autoload"
+  "github.com/bismarkanes/web-go/infrastructure/utils"
+  "github.com/bismarkanes/web-go/interfaces/handlers"
+  "github.com/go-chi/chi"
+  "github.com/go-chi/chi/middleware"
+  _ "github.com/joho/godotenv/autoload"
 )
 
 func init() {
@@ -23,10 +23,16 @@ func main() {
 	// initial database
 	db := database.NewDBConnection()
 
-	log.Printf("Db connection %s SUCCESS", db.Name())
+  utils.Log("Db connection %s SUCCESS", db.Name())
 
-	// initial HTTP router handler
-	initRouter()
+  err := database.Migrate(db)
+  if err != nil {
+    panic(err)
+  }
+  utils.Log("Success migration")
+
+  // initial HTTP router handler
+  initRouter()
 }
 
 func initRouter() {
@@ -35,7 +41,7 @@ func initRouter() {
 	r.Use(middleware.Logger)
 
 	ping := application.NewPing()
-	routePing := routes.NewPing(ping)
+  routePing := handlers.NewPing(ping)
 
 	r.Get("/ping", routePing.GetPing)
 
