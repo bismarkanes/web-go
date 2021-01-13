@@ -1,17 +1,27 @@
 package persistence
 
 import (
-    "github.com/jinzhu/gorm"
+  "github.com/bismarkanes/web-go/domain/model"
+  "github.com/bismarkanes/web-go/domain/repository"
+  "gorm.io/gorm"
 )
 
 // Users .
-type Users struct {
-    dbConn *gorm.DB
+type users struct {
+  dbConn *gorm.DB
 }
 
-// NewOrder ...
-func NewUsersRepo(dbConn *gorm.DB) repo {
-    return &Users{
-        dbConn: dbConn,
-    }
+// NewUsersRepo ...
+func NewUsersRepo(dbConn *gorm.DB) repository.Users {
+  return &users{
+    dbConn: dbConn,
+  }
+}
+
+func (us *users) Get(id int) (model.Users, error) {
+  user := model.Users{}
+
+  err := us.dbConn.First(&user).Error
+
+  return user, err
 }
