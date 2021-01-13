@@ -1,39 +1,39 @@
 package application
 
 import (
-  "github.com/bismarkanes/web-go/domain/model"
-  "github.com/bismarkanes/web-go/domain/repository"
+    "github.com/bismarkanes/web-go/domain"
+    "github.com/bismarkanes/web-go/domain/repository"
 )
 
 type Users interface {
-  GetUser(ID int) *model.Users
-  GetAllUser() []model.Users
+    GetUser(ID int) *domain.Users
+    GetAllUser() []domain.Users
 }
 
 type users struct {
-  usersRepo repository.Users
+    usersRepo repository.Users
 }
 
-func (us *users) GetUser(ID int) *model.Users {
-  users, err := us.usersRepo.Get(ID)
-  if err != nil {
-    return nil
-  }
+func (us *users) GetUser(ID int) *domain.Users {
+    users, err := us.usersRepo.Get(ID)
+    if err != nil {
+        return nil
+    }
 
-  return &users
+    return &users
 }
 
-func (us *users) GetAllUser() []model.Users {
-  users, err := us.usersRepo.GetAll()
-  if err != nil {
-    return nil
-  }
+func (us *users) GetAllUser() []domain.Users {
+    users, err := us.usersRepo.GetAll()
+    if err != nil {
+        return nil
+    }
 
-  return users
+    return users
 }
 
 func NewUsers(ur repository.Users) Users {
-  return &users{
-    usersRepo: ur,
-  }
+    return &users{
+        usersRepo: ur,
+    }
 }
