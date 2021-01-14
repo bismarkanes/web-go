@@ -54,3 +54,11 @@ func (us *user) Create(name, email string) (domain.User, error) {
     err := result.Scan(&user).Error
     return user, err
 }
+
+func (us *user) Delete(id int) error {
+    user := domain.User{}
+
+    result := us.dbConn.Model(&user).Delete("id = ?", id)
+
+    return result.Error
+}

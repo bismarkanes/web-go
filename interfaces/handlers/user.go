@@ -94,7 +94,11 @@ func (us *users) DeleteUser(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    resp := us.userApp.GetUser(userID)
+    err = us.userApp.DeleteUser(userID)
+    if err != nil {
+        utils.JSONError(w, r, "ERR_DELETE")
+        return
+    }
 
-    utils.JSON(w, r, true, nil, resp)
+    utils.JSON(w, r, true, nil, nil)
 }

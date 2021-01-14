@@ -8,4 +8,5 @@ type User interface {
     GetAll() ([]domain.User, error)
     Create(name, email string) (domain.User, error)
     Update(id int, name, email string) (int64, error)
+    Delete(id int) error
 }

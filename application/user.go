@@ -10,6 +10,7 @@ type User interface {
     GetAllUser() []domain.User
     UpdateUser(id int, name, email string) int64
     CreateUser(name, email string) *domain.User
+    DeleteUser(id int) error
 }
 
 type user struct {
@@ -49,6 +50,10 @@ func (us *user) CreateUser(name, email string) *domain.User {
     }
 
     return &user
+}
+
+func (us *user) DeleteUser(id int) error {
+    return us.userRepo.Delete(id)
 }
 
 func NewUser(ur repository.User) User {
