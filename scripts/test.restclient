@@ -1,10 +1,12 @@
-GET http://localhost:3000/ping
+:HOSTNAME=http://localhost:3000
 ###
-GET http://localhost:3000/users?page=1&length=10
+GET :HOSTNAME/ping
 ###
-GET http://localhost:3000/users/1
+GET :HOSTNAME/users?page=1&length=10
 ###
-POST http://localhost:3000/users
+GET :HOSTNAME/users/1
+###
+POST :HOSTNAME/users
 content-type: application/json
 
 {
@@ -12,11 +14,11 @@ content-type: application/json
 	"email": "bismark@gmail.com"
 }
 ###
-PATCH http://localhost:3000/users/3
+PATCH :HOSTNAME/users/3
 content-type: application/json
 {
   "name": "budi",
 	"email": "budi@gmail.com"
 }
 ###
-DELETE http://localhost:3000/users/1
+DELETE :HOSTNAME/users/1
