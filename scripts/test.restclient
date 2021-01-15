@@ -1,10 +1,10 @@
-:HOSTNAME=http://localhost:3000
+:HOSTNAME=http://localhost:8080
 ###
 GET :HOSTNAME/ping
 ###
 GET :HOSTNAME/users?page=1&length=10
 ###
-GET :HOSTNAME/users/1
+GET :HOSTNAME/users/2
 ###
 POST :HOSTNAME/users
 content-type: application/json
@@ -14,10 +14,10 @@ content-type: application/json
 	"email": "bismark@gmail.com"
 }
 ###
-PATCH :HOSTNAME/users/3
+PATCH :HOSTNAME/users/4
 content-type: application/json
 {
-  "name": "budi",
+  "name": "hello",
 	"email": "budi@gmail.com"
 }
 ###

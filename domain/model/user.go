@@ -1,8 +1,8 @@
-package domain
+package model
 
 // User .
 type User struct {
-    ModelCommon
+    ModelBase
     Name  string `gorm:"column:name" json:"name"`
     Email string `gorm:"column:email" json:"email"`
 }

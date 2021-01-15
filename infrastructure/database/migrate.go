@@ -1,12 +1,12 @@
 package database
 
 import (
-    "github.com/bismarkanes/web-go/domain"
+    "github.com/bismarkanes/web-go/domain/model"
     "gorm.io/gorm"
 )
 
 func Migrate(db *gorm.DB) error {
-    Users := domain.User{}
+    Users := model.User{}
 
     return db.AutoMigrate(&Users)
 }

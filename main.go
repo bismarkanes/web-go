@@ -5,13 +5,13 @@ import (
 
     "github.com/asaskevich/govalidator"
     "github.com/bismarkanes/web-go/application"
+    "github.com/bismarkanes/web-go/infrastructure/config"
     "github.com/bismarkanes/web-go/infrastructure/database"
     "github.com/bismarkanes/web-go/infrastructure/persistence"
-    "github.com/bismarkanes/web-go/infrastructure/utils"
+    "github.com/bismarkanes/web-go/infrastructure/utilities"
     "github.com/bismarkanes/web-go/interfaces/handlers"
     "github.com/go-chi/chi"
     "github.com/go-chi/chi/middleware"
-    "os"
 
     _ "github.com/joho/godotenv/autoload"
 )
@@ -21,17 +21,19 @@ func init() {
 }
 
 func main() {
+    conf := config.NewConfig()
+
 	// initial database
 	db := database.NewDBConnection()
 
-    utils.Log("Db connection %s SUCCESS", db.Name())
+    utilities.Log("Db connection %s SUCCESS", db.Name())
 
     // migration
     err := database.Migrate(db)
     if err != nil {
         panic(err)
     }
-    utils.Log("Success migration")
+    utilities.Log("Success migration")
 
     // initial HTTP router handler
     r := chi.NewRouter()
@@ -55,5 +57,5 @@ func main() {
         })
     })
 
-    http.ListenAndServe(":"+os.Getenv("PORT"), r)
+    http.ListenAndServe(":"+conf.AppPort, r)
 }

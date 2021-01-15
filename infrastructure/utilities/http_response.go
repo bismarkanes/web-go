@@ -1,4 +1,4 @@
-package utils
+package utilities
 
 import (
     "encoding/json"
@@ -9,22 +9,30 @@ const (
     jsonParseFailed = "{\"reason\":\"failed to parse json\"}"
 )
 
+type ResponsMeta struct {
+    Total int `json:"total"`
+    Limit int `json:"limit"`
+    Skip  int `json:"skip"`
+}
+
 type JSONResponse struct {
-    Success bool        `json:"success"`
+    Status  int         `json:"status"`
+    Type    interface{} `json:"type"`
     Data    interface{} `json:"data"`
     Message interface{} `json:"message"`
+    Meta    interface{} `json:"meta"`
 }
 
 // Complete JSON response
-func JSON(w http.ResponseWriter, r *http.Request, success bool, message *string, data interface{}) {
+func JSON(w http.ResponseWriter, r *http.Request, errorMessage *string, data interface{}) {
     var payload []byte
 
     var err error
 
     resp := JSONResponse{
-        Success: success,
         Data:    data,
-        Message: message,
+        Message: errorMessage,
+        Status:  http.StatusOK,
     }
 
     if payload, err = json.Marshal(resp); err != nil {
@@ -41,10 +49,10 @@ func JSON(w http.ResponseWriter, r *http.Request, success bool, message *string,
 
 // Simple JSON response success
 func JSONSuccess(w http.ResponseWriter, r *http.Request, data interface{}) {
-    JSON(w, r, true, nil, data)
+    JSON(w, r, nil, data)
 }
 
 // Simple JSON response error
 func JSONError(w http.ResponseWriter, r *http.Request, message string) {
-    JSON(w, r, false, &message, nil)
+    JSON(w, r, &message, nil)
 }

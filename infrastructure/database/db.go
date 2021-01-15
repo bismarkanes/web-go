@@ -2,9 +2,10 @@ package database
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"os"
+
+    "github.com/bismarkanes/web-go/infrastructure/config"
+    "gorm.io/driver/postgres"
+    "gorm.io/gorm"
 )
 
 type ping struct {
@@ -14,14 +15,16 @@ type ping struct {
 
 // New main database config
 func NewDBConnection() *gorm.DB {
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USERNAME"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	)
+    Config := config.NewConfig()
+
+    dsn := fmt.Sprintf(
+        "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+        Config.DBHost,
+        Config.DBUsername,
+        Config.DBPassword,
+        Config.DBName,
+        Config.DBPort,
+    )
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
