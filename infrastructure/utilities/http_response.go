@@ -3,6 +3,8 @@ package utilities
 import (
     "encoding/json"
     "net/http"
+
+    "github.com/bismarkanes/web-go/infrastructure/constants"
 )
 
 const (
@@ -40,14 +42,13 @@ func JSON(w http.ResponseWriter, r *http.Request, errorMessage *string, data int
         Status:  http.StatusOK,
     }
 
+    w.Header().Set(constants.HttpHeaderContentType, constants.HttpHeaderApplicationJson)
+
     if payload, err = json.Marshal(resp); err != nil {
-        w.Header().Set("Content-Type", "application/json; charset=utf-8")
         w.WriteHeader(http.StatusInternalServerError)
         w.Write([]byte(jsonParseFailed))
         return
     }
-
-    w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 
     w.Write(payload)
 }
