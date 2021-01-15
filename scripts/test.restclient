@@ -2,11 +2,11 @@
 ###
 GET :HOSTNAME/ping
 ###
-GET :HOSTNAME/users?page=1&length=10
+GET :HOSTNAME/v1/users?page=1&length=10
 ###
-GET :HOSTNAME/users/2
+GET :HOSTNAME/v1/users/3
 ###
-POST :HOSTNAME/users
+POST :HOSTNAME/v1/users
 content-type: application/json
 
 {
@@ -14,11 +14,11 @@ content-type: application/json
 	"email": "bismark@gmail.com"
 }
 ###
-PATCH :HOSTNAME/users/4
+PATCH :HOSTNAME/v1/users/4
 content-type: application/json
 {
   "name": "hello",
 	"email": "budi@gmail.com"
 }
 ###
-DELETE :HOSTNAME/users/1
+DELETE :HOSTNAME/v1/users/1

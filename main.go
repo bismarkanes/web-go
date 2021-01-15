@@ -42,18 +42,21 @@ func main() {
 
     r.Get("/ping", handlers.GetPing)
 
-    // users
+    // users initialization
     userPersist := persistence.NewUserRepo(db)
     userApp := application.NewUser(userPersist)
     userHandler := handlers.NewUserHandler(userApp)
 
-    r.Route("/users", func(r chi.Router) {
-        r.Get("/", userHandler.GetAllUser)
-        r.Post("/", userHandler.CreateUser)
-        r.Route("/{userID}", func(r chi.Router) {
-            r.Get("/", userHandler.GetUser)
-            r.Patch("/", userHandler.UpdateUser)
-            r.Delete("/", userHandler.DeleteUser)
+    // users http routing
+    r.Route("/v1", func(r chi.Router) {
+        r.Route("/users", func(r chi.Router) {
+            r.Get("/", userHandler.GetAllUser)
+            r.Post("/", userHandler.CreateUser)
+            r.Route("/{userID}", func(r chi.Router) {
+                r.Get("/", userHandler.GetUser)
+                r.Patch("/", userHandler.UpdateUser)
+                r.Delete("/", userHandler.DeleteUser)
+            })
         })
     })
 
