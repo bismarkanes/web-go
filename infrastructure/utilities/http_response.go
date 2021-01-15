@@ -15,6 +15,11 @@ type ResponsMeta struct {
     Skip  int `json:"skip"`
 }
 
+// JSONResponse
+// Status -> 200, 400, 401
+// Message -> error message
+// Data -> Payload
+// Meta -> Pagination etc
 type JSONResponse struct {
     Status  int         `json:"status"`
     Type    interface{} `json:"type"`
